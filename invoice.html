@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .invoice-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .header div {
+            width: 45%;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .stamp {
+            color: red;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <h1>AFRICA INVESTISSEMENT</h1>
+        <h2>Facture</h2>
+        <div class="header">
+            <div>
+                <p><strong>Nom :</strong> <span id="clientName"></span></p>
+                <p><strong>Adresse :</strong> <span id="clientAddress"></span></p>
+                <p><strong>Téléphone :</strong> <span id="clientPhone"></span></p>
+            </div>
+            <div>
+                <p><strong>Numéro de Facture :</strong> <span id="invoiceNumber"></span></p>
+                <p><strong>Date :</strong> <span id="createdDate"></span></p>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Montant Initial</th>
+                    <th>Bonus (%)</th>
+                    <th>Montant Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="productDetails"></td>
+                    <td id="totalAmount"></td>
+                    <td id="bonusPercentage"></td>
+                    <td id="finalTotal"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <div class="stamp"> FACTURE PAYÉ</div>
+            <p>Africa investissement vous remerci</p>
+        </div>
+    </div>
+
+    <button id="printInvoice" onclick="window.print()" style="margin-top: 20px; padding: 10px; font-size: 18px;">
+        <img src="printer_2395389.png" alt="Printer Icon" style="width: 20px; vertical-align: middle;"> Imprimer la facture
+      </button>
+      
+      
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const invoiceData = JSON.parse(localStorage.getItem('currentInvoice'));
+            if (invoiceData) {
+                document.getElementById('clientName').textContent = invoiceData.clientName;
+                document.getElementById('clientAddress').textContent = invoiceData.clientAddress;
+                document.getElementById('clientPhone').textContent = invoiceData.clientPhone;
+                document.getElementById('invoiceNumber').textContent = invoiceData.invoiceNumber;
+                document.getElementById('createdDate').textContent = invoiceData.createdDate;
+                document.getElementById('productDetails').textContent = invoiceData.productDetails;
+                document.getElementById('totalAmount').textContent = `${invoiceData.totalAmount} ${invoiceData.currency}`;
+                document.getElementById('bonusPercentage').textContent = `${invoiceData.bonusPercentage}%`;
+                document.getElementById('finalTotal').textContent = `${invoiceData.finalTotal} ${invoiceData.currency}`;
+            }
+        });
+    </script>
+</body>
+</html>

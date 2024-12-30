@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Facture</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #4e4e70;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        *::before, *::after{
+            box-sizing: inherit;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgb(243, 245, 245);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0077ff;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+        input{
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px
+        }
+        textarea, select, button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Créer une Facture</h1>
+        <form id="invoiceForm">
+            <label>Nom du Client :</label>
+            <input type="text" id="clientName" placeholder="Ex : Jean Dupont" required>
+            
+            <label>Adresse :</label>
+            <textarea id="clientAddress" placeholder="Ex : 12 rue de Paris, 75000 Paris" required></textarea>
+            
+            <label>Numéro de Téléphone :</label>
+            <input type="tel" id="clientPhone" placeholder="Ex : +33 6 12 34 56 78" required>
+            
+            <label>Description des Produits/Services :</label>
+            <textarea id="productDetails" placeholder="Ex : Conseil en gestion, Développement web..." required></textarea>
+            
+            <label>Total (montant avant bonus) :</label>
+            <input type="number" id="totalAmount" placeholder="Ex : 1500" required>
+            
+            <label>Devise :</label>
+            <select id="currency" required>
+                <option value="FCFA">FCFA</option>
+                <option value="USD">USD</option>
+                <option value="€">€</option>
+                <option value="GNF">GNF</option>
+            </select>
+            
+            <label>Bonus (%) :</label>
+            <input type="number" id="bonusPercentage" placeholder="Ex : 10" required>
+            
+            <button type="button" onclick="saveInvoice()">Générer la Facture</button>
+        </form>
+    </div>
+
+    <script>
+        function saveInvoice() {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+            const bonusPercentage = parseFloat(document.getElementById('bonusPercentage').value);
+            const bonusAmount = (totalAmount * bonusPercentage) / 100;
+
+            const invoiceData = {
+                clientName: document.getElementById('clientName').value,
+                clientAddress: document.getElementById('clientAddress').value,
+                clientPhone: document.getElementById('clientPhone').value,
+                productDetails: document.getElementById('productDetails').value,
+                totalAmount: totalAmount,
+                currency: document.getElementById('currency').value,
+                bonusPercentage: bonusPercentage,
+                bonusAmount: bonusAmount.toFixed(2),
+                finalTotal: (totalAmount + bonusAmount).toFixed(2),
+                invoiceNumber: 'INV-' + Date.now(),
+                createdDate: new Date().toLocaleString()
+            };
+
+            localStorage.setItem('currentInvoice', JSON.stringify(invoiceData));
+            window.location.href = "invoice.html";
+        }
+    </script>
+</body>
+</html>
